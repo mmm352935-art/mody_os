@@ -1,0 +1,24 @@
+name: Build custom i386 live ISO
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: debian:bookworm
+      options: --privileged
+    steps:
+      - name: Install git and checkout
+        run: |
+          apt-get update
+          apt-get install -y git ca-certificates
+      - uses: actions/checkout@v4
+      - name: Build ISO
+        run: bash build-iso.sh
+      - name: Upload ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: custom-live-i386-iso
+          path: out/custom-live-i386.iso
+          if-no-files-found: error
+          retention-days: 7
