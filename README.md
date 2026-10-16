@@ -1,1 +1,1 @@
-# mody_os
+build-iso.sh
